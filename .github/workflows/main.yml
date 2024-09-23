@@ -40,3 +40,9 @@ jobs:
           --set image.tag=$GITHUB_SHA \
           --set service.type=LoadBalancer
 
+    - name: Get Service External IP
+      run: |
+        echo "Waiting for LoadBalancer to get an external IP..."
+        sleep 60  # Wait for a minute to ensure the IP is assigned
+        export SERVICE_IP=$(kubectl get svc --namespace default gke-python-release --template="{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+        echo "The application is available at: http://$SERVICE_IP:8080"
