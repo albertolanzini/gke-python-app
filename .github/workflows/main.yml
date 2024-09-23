@@ -30,6 +30,22 @@ jobs:
         version: 'latest'
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+    - name: Install GKE gcloud auth plugin
+    run: |
+      gcloud components install gke-gcloud-auth-plugin
+      gcloud config set container/use_client_certificate True
+      export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+    - name: Set up GKE Cluster Credentials
+      run: |
+        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
+        --zone ${{ secrets.GKE_CLUSTER_ZONE }} \
+        --project ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Verify Kubernetes Cluster Connectivity
+      run: |
+      kubectl get nodes
+
     - name: Configure Docker for Artifact Registry
       run: |
         gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
@@ -42,22 +58,12 @@ jobs:
         --push --progress plain \
         .
 
-    - name: Set up GKE Cluster Credentials
-      run: |
-        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
-        --zone ${{ secrets.ARTIFACT_REGISTRY_REGION }} \
-        --project ${{ secrets.GCP_PROJECT_ID }}
-
-    - name: Verify Kubernetes Cluster Connectivity
-      run: |
-        kubectl get nodes
-
     - name: Deploy to GKE using Helm
       run: |
         helm upgrade --install gke-python-release ./my-helm-chart \
           --set image.repository=${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app \
           --set image.tag=$GITHUB_SHA \
-          --set service.type=LoadBalancer
+      # --set service.type=LoadBalancer
 
     - name: Get Service External IP
       run: |
