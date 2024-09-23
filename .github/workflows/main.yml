@@ -43,13 +43,16 @@ jobs:
       run: |
         gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
 
-    - name: Print working directory and list files
-      run: |
-        pwd
-        ls -l
+    # - name: Print working directory and list files
+    #   run: |
+    #     pwd
+    #     ls -l
 
-    - name: Test Docker Build
-      run: docker build -t test-build .
+    # - name: Test Docker Build
+    #   run: docker build -t test-build .
+
+    - name: Test Docker Buildx
+      run: docker buildx build --platform linux/amd64 -t test-build .
 
 
     - name: Build Docker Image for linux/amd64
