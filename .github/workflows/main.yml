@@ -31,7 +31,7 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Install GKE gcloud auth plugin
-    run: |
+      run: |
       gcloud components install gke-gcloud-auth-plugin
       gcloud config set container/use_client_certificate True
       export USE_GKE_GCLOUD_AUTH_PLUGIN=True
