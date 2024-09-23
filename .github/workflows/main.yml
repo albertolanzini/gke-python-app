@@ -53,7 +53,8 @@ jobs:
         docker buildx build \
         --platform linux/amd64 \
         -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA \
-        --push --progress=plain .
+        --push --progress=plain \
+        .
 
     - name: Deploy to GKE using Helm
       run: |
