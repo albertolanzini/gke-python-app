@@ -34,7 +34,6 @@ jobs:
       run: |
         gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
 
-
     - name: Build Docker Image for linux/amd64
       run: |
         docker buildx build . \
