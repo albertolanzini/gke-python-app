@@ -16,14 +16,8 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Check current directory
-      run: pwd
-
-    - name: List files
-      run: ls -l
-
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
 
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v1
@@ -42,10 +36,10 @@ jobs:
 
     - name: Build Docker Image for linux/amd64
       run: |
-        docker buildx build . \
-          --platform=linux/amd64 \
+        docker buildx build \
+          --platform linux/amd64 \
           -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA \
-          --push --progress=plain
+          --push --progress=plain .
 
     - name: Deploy to GKE using Helm
       run: |
