@@ -48,6 +48,10 @@ jobs:
         pwd
         ls -l
 
+    - name: Test Docker Build
+      run: docker build -t test-build .
+
+
     - name: Build Docker Image for linux/amd64
       run: |
         docker buildx build --platform linux/amd64 -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA --push --progress=plain .
