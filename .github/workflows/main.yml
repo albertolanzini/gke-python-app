@@ -24,15 +24,16 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+    - name: Set the Active GCP Account
+      run: |
+        gcloud config set account ${{ secrets.SA_EMAIL }}
+        gcloud auth list
+
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
         version: 'latest'
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-    - name: Debug GCP Service Account
-      run: |
-        gcloud auth list
 
     - name: Install GKE gcloud auth plugin
       run: |
