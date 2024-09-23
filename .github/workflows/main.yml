@@ -52,7 +52,7 @@ jobs:
     #   run: docker build -t test-build .
 
     - name: Build Docker Image using Buildx
-      run: docker buildx build --platform linux/amd64 -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA --output=type=docker
+      run: docker buildx build --platform linux/amd64 -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA --output=type=docker .
 
     - name: Push Docker Image
       run: docker push ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPO }}/gke-python-app:$GITHUB_SHA
