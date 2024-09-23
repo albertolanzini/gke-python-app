@@ -39,7 +39,7 @@ jobs:
     - name: Set up GKE Cluster Credentials
       run: |
         gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
-        --zone ${{ secrets.GKE_CLUSTER_ZONE }} \
+        --zone ${{ secrets.ARTIFACT_REGISTRY_REGION }} \
         --project ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Verify Kubernetes Cluster Connectivity
