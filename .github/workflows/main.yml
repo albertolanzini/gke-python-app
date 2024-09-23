@@ -25,8 +25,9 @@ jobs:
     #     echo ${{ secrets.GCP_PROJECT_ID }}
     #     echo ${{ secrets.ARTIFACT_REGISTRY_REPO }}
 
-    # - name: Login to Google Container Registry
-    #   run: echo "${{ secrets.GCP_SA_KEY }}" | docker login -u _json_key --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
+    - name: Login to Google Container Registry
+      run: |
+        echo "${{ secrets.GCP_SA_KEY }}" | docker login -u _json_key --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
 
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v1
